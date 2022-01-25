@@ -1,18 +1,25 @@
 const express = require("express"),
+  path = require("path"),
   jwt = require("express-jwt"),
   jsendie = require("jsendie"),
   app = express(),
   PORT = process.env.PORT || 5000;
 
-// JSON standard response
+// Third Party
 app.use(jsendie());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+app.use(express.static(path.join(__dirname, "public")));
 
 // JWT Middleware
-const noAuth = ["/", "/token", "/oke"];
+const noAuth = [new RegExp("^/auth")];
 app.use(
-  jwt({ secret: "shhhhhhared-secret", algorithms: ["HS256"] }).unless({
+  jwt({
+    secret: process.env.JWT_SECRET || "shhhhhhared-secret",
+    algorithms: ["HS256"],
+  }).unless({
     path: noAuth,
   })
 );
@@ -21,18 +28,31 @@ app.use(
 const routes = require("./router");
 routes.forEach(({ path, route }) => {
   console.log(`registered [${path}] => [${route}]`);
-  app.use(path, require(route))
+  app.use(path, require(route));
 });
 
 // invalid jwt / not found
-app.use(function (err, req, res, next) {
+app.use((err, req, res, next) => {
   if (err.name === "UnauthorizedError") {
-    res.error("invalid jwt token", 401);
-  } else {
-    // page not found
-    res.error("page not found", 404);
+    // res.status(401).render("pages/error", {
+    //   errorMsg: "Please Login",
+    //   dir: __dirname,
+    //   statusCode: 401,
+    // });
+    res.redirect("/auth/login");
   }
 });
 
-app.listen(PORT, () => console.log(`Listening on ${PORT}`));
+// error handler
+app.use((req, res) =>
+  res
+    .status(404)
+    .render("pages/error", {
+      errorMsg: "Page Not Found",
+      dir: __dirname,
+      statusCode: 404,
+    })
+);
+
+app.listen(PORT, () => console.log(`Server Listening on ${PORT}`));
 module.exports = app;

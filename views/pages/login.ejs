@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+  <!-- head -->
+  <%- include('../layout/_head') -%>
+
+  <body class="nk-body npc-default pg-auth bg-purple">
+    <div class="nk-app-root">
+      <!-- main @s -->
+      <div class="nk-main">
+        <!-- wrap @s -->
+        <div class="nk-wrap nk-wrap-nosidebar">
+          <!-- content @s -->
+          <div class="nk-content">
+            <div class="nk-block nk-block-middle nk-auth-body wide-xs">
+              <div class="card card-bordered">
+                <div class="card-inner card-inner-lg">
+                  <div class="nk-block-head">
+                    <div class="nk-block-head-content">
+                      <h4 class="nk-block-title"><%= title %></h4>
+                      <div class="nk-block-des">
+                        <p><%= msg %></p>
+                      </div>
+                    </div>
+                  </div>
+                  <form action="/login" method="POST">
+                    <div class="form-group">
+                      <div class="form-label-group">
+                        <label class="form-label" for="emailOrUsername"
+                          >Email or Username</label
+                        >
+                      </div>
+                      <input
+                        required
+                        type="text"
+                        class="form-control form-control-lg"
+                        name="email"
+                        id="emailOrUsername"
+                        placeholder="Enter your email address or username"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <div class="form-label-group">
+                        <label class="form-label" for="password"
+                          >Password</label
+                        >
+                        <span
+                          style="cursor: pointer"
+                          class="link link-primary link-sm"
+                          data-placement="left"
+                          data-toggle="tooltip"
+                          data-title="Contact your administrator"
+                          >Forgot Password?</span
+                        >
+                      </div>
+                      <div class="form-control-wrap">
+                        <span
+                          style="cursor: pointer"
+                          class="form-icon form-icon-right passcode-switch"
+                          data-target="password"
+                        >
+                          <em
+                            class="passcode-icon icon-show icon ni ni-eye"
+                          ></em>
+                          <em
+                            class="passcode-icon icon-hide icon ni ni-eye-off"
+                          ></em>
+                        </span>
+                        <input
+                          minlength="6"
+                          required
+                          type="password"
+                          class="form-control form-control-lg"
+                          id="password"
+                          name="password"
+                          placeholder="Enter your password"
+                        />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <button class="btn btn-lg btn-primary btn-block">
+                        Sign in
+                      </button>
+                    </div>
+                  </form>
+                  <div class="form-note-s2 text-center pt-4">
+                    New?
+                    <span
+                      style="cursor: pointer"
+                      class="link link-primary"
+                      data-placement="top"
+                      data-toggle="tooltip"
+                      data-title="Contact your admin to register"
+                      >Register</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- wrap @e -->
+        </div>
+        <!-- content @e -->
+      </div>
+      <!-- main @e -->
+    </div>
+
+    <!-- Assets -->
+    <%- include('../layout/_script') -%>
+  </body>
+</html>
